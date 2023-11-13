@@ -73,7 +73,7 @@ void def_alias(char *var_name, char *val)
 	new_val = malloc(sizeof(char) * (len + 1));
 	if (!new_val)
 		return;
-	for (j = 0, k = 0; value[j]; j++)
+	for (j = 0, k = 0; val[j]; j++)
 	{
 		if (val[j] != '\'' && val[j] != '"')/** val*/
 			new_val[k++] = val[j];
@@ -83,14 +83,14 @@ void def_alias(char *var_name, char *val)
 	{
 		if (_strcmp(var_name, temp->name) == 0)
 		{
-			free(temp->value);
+			free(temp->va);
 			temp->val = new_val;
 			break;
 		}
-		temp = temp->next;
+		temp = temp->nts;
 	}
 	if (!temp)
-		add_alias_end(&aliases, var_name, new_value);
+		pl_alias_end(&aliases, var_name, new_val);
 }
 
 /**
@@ -137,16 +137,16 @@ char **switch_alias(char **args)
 				new_val = malloc(sizeof(char) * (_strlen(temp->val) + 1));
 				if (!new_val)
 				{
-					free_args(args, args);
+					fr_args(args, args);
 					return (NULL);
 				}
 				_strcpy(new_val, temp->val);
-				free(args[i]);
-				args[i] = new_val;
-				i--;
+				free(args[l]);
+				args[l] = new_val;
+				l--;
 				break;
 			}
-			temp = temp->next;
+			temp = temp->nts;
 		}
 	}
 
