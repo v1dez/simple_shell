@@ -58,15 +58,15 @@ char *locate_command(char *command)
  */
 char *fill_path_with_cwd(char *path)
 {
-	int i, length = 0;
+	int j, length = 0;
 	char *path_copy, *current_working_dir;
 
 	current_working_dir = *(_getenv("PWD")) + 4;
-	for (i = 0; path[i]; i++)
+	for (j = 0; path[j]; j++)
 	{
-		if (path[i] == ':')
+		if (path[j] == ':')
 		{
-			if (path[i + 1] == ':' || i == 0 || path[i + 1] == '\0')
+			if (path[j + 1] == ':' || j == 0 || path[j + 1] == '\0')
 				length += _strlen(current_working_dir) + 1;
 			else
 				length++;
@@ -78,16 +78,16 @@ char *fill_path_with_cwd(char *path)
 	if (!path_copy)
 		return (NULL);
 	path_copy[0] = '\0';
-	for (i = 0; path[i]; i++)
+	for (j = 0; path[j]; j++)
 	{
-		if (path[i] == ':')
+		if (path[j] == ':')
 		{
-			if (i == 0)
+			if (j == 0)
 			{
 				_strcat(path_copy, current_working_dir);
 				_strcat(path_copy, ":");
 			}
-			else if (path[i + 1] == ':' || path[i + 1] == '\0')
+			else if (path[j + 1] == ':' || path[j + 1] == '\0')
 			{
 				_strcat(path_copy, ":");
 				_strcat(path_copy, current_working_dir);
@@ -97,7 +97,7 @@ char *fill_path_with_cwd(char *path)
 		}
 		else
 		{
-			_strncat(path_copy, &path[i], 1);
+			_strncat(path_copy, &path[j], 1);
 		}
 	}
 	return (path_copy);
