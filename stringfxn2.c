@@ -84,16 +84,16 @@ int _strcmp(char *s1, char *s2)
  */
 int _strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t i;
+	size_t j;
 
-	for (i = 0; s1[i] && s2[i] && i < n; i++)
+	for (j = 0; s1[j] && s2[j] && j < n; j++)
 	{
-		if (s1[i] > s2[i])
-			return (s1[i] - s2[i]);
-		else if (s1[i] < s2[i])
-			return (s1[i] - s2[i]);
+		if (s1[j] > s2[j])
+			return (s1[j] - s2[j]);
+		else if (s1[j] < s2[j])
+			return (s1[j] - s2[j]);
 	}
-	if (i == n)
+	if (j == n)
 		return (0);
 	else
 		return (-15);
