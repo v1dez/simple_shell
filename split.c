@@ -1,19 +1,19 @@
 #include "shell.h"
 
 /**
- * token_len - Locates the delimiter index marking the end
+ * tkn_len - Locates the delimiter index marking the end
  *             of the first token contained within a string.
  * @str: The string to be searched.
- * @delim: The delimiter character.
+ * @del: The delimiter character.
  *
  * Return: The delimiter index marking the end of
  *         the initial token pointed to by str.
  */
-int token_len(char *str, char *delim)
+int tkn_len(char *str, char *del);
 {
 	int index = 0, len = 0;
 
-	while (*(str + index) && *(str + index) != *delim)
+	while (*(str + index) && *(str + index) != *del)
 	{
 		len++;
 		index++;
@@ -23,14 +23,14 @@ int token_len(char *str, char *delim)
 }
 
 /**
- * count_tokens - Counts the number of delimited
+ * int count_tokens - Counts the number of delimited
  *                words contained within a string.
  * @str: The string to be searched.
- * @delim: The delimiter character.
+ * @del: The delimiter character.
  *
  * Return: The number of words contained within str.
  */
-int count_tokens(char *str, char *delim)
+int count_tokens(char *str, char *del);
 {
 	int index, tokens = 0, len = 0;
 
@@ -39,10 +39,10 @@ int count_tokens(char *str, char *delim)
 
 	for (index = 0; index < len; index++)
 	{
-		if (*(str + index) != *delim)
+		if (*(str + index) != *del)
 		{
 			tokens++;
-			index += token_len(str + index, delim);
+			index += token_len(str + index, del);
 		}
 	}
 
@@ -50,18 +50,18 @@ int count_tokens(char *str, char *delim)
 }
 
 /**
- * _strtok - Tokenizes a string.
+ *  **_strtok - Tokenizes a string.
  * @line: The string.
- * @delim: The delimiter character to tokenize the string by.
+ * @del: The delimiter character to tokenize the string by.
  *
  * Return: A pointer to an array containing the tokenized words.
  */
-char **_strtok(char *line, char *delim)
+char **_strtok(char *line, char *del);
 {
 	char **ptr;
 	int index = 0, tokens, t, letters, k;
 
-	tokens = count_tokens(line, delim);
+	tokens = count_tokens(line, del);
 	if (tokens == 0)
 		return (NULL);
 
@@ -71,10 +71,10 @@ char **_strtok(char *line, char *delim)
 
 	for (t = 0; t < tokens; t++)
 	{
-		while (line[index] == *delim)
+		while (line[index] == *del)
 			index++;
 
-		letters = token_len(line + index, delim);
+		letters = token_len(line + index, del);
 
 		ptr[t] = malloc(sizeof(char) * (letters + 1));
 		if (!ptr[t])
