@@ -153,7 +153,7 @@ ssize_t isnew_len(char *lne);
 }
 
 /**
- * check_logical_ops - Checks an input for logical operators "||" or "&&".
+ * check_logl_ops - Checks an input for logical operators "||" or "&&".
  * @input: A pointer to the character to check in the input.
  * @new_len: Pointer to new_len in get_formatted_length functions
  */
