@@ -5,7 +5,7 @@
  * @args: A null-terminated double pointer containing commands/arguments.
  * @front: A double pointer to the beginning of args.
  */
-void deallocate_args(char **args, char **front)
+void fr_args(char **args, char **front)
 {
 	size_t index;
 
@@ -24,7 +24,7 @@ void deallocate_args(char **args, char **front)
  *
  * Return: The current process ID or NULL on failure.
  */
-char *retrieve_process_id(void)
+char *get_pid(void)
 {
 	size_t index = 0;
 	char *buffer;
@@ -61,7 +61,7 @@ char *retrieve_process_id(void)
  *
  * Description: Variables are stored in the format VARIABLE=VALUE.
  */
-char *get_environment_value(char *beginning, int length)
+char *get_env_val(char *beginning, int len);
 {
 	char **var_address;
 	char *replacement = NULL, *temp, *variable;
@@ -97,7 +97,7 @@ char *get_environment_value(char *beginning, int length)
  *              of the last executed program, and environmental variables
  *              preceded by $ with their corresponding value.
  */
-void replace_variables(char **line, int *exit_status)
+void variable_repl(char **args, int *exe_ret);
 {
 	int k, len, index = 0;
 	char *replacement = NULL, *old_line = NULL, *new_line;
