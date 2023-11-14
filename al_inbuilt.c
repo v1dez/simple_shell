@@ -119,7 +119,7 @@ void writ_alias(alias_t *alias)
  * @args: 2D pointer to the arguments
  * Return: 2D pointer to the arguments
  */
-char **switch_alias(char **args)
+char **switch_alias(char **args, char **front);
 {
 	alias_t *temp;
 	int l;
@@ -152,4 +152,3 @@ char **switch_alias(char **args)
 
 	return (args);
 }
-
