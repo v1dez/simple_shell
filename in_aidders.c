@@ -8,7 +8,7 @@
  * Return: If an error occurs - NULL.
  *         Otherwise - a pointer to the stored command.
  */
-char *get_input(char *line, int *exe_ret)
+char *get_args(char *lne, int *e_ret);
 {
 	size_t n = 0;
 	ssize_t read;
@@ -43,7 +43,7 @@ char *get_input(char *line, int *exe_ret)
  *
  * Return: The return value of the last executed command.
  */
-int separate_and_execute(char **commands, char **front, int *exe_ret)
+int call_args(char **args, char **front, int *e_ret);
 {
 	int ret, index;
 
@@ -101,7 +101,7 @@ int separate_and_execute(char **commands, char **front, int *exe_ret)
  *
  * Return: The return value of the last executed command on the shell history.
  */
-int execute_commands(char **commands, char **front, int *exe_ret)
+int run_args(char **args, char **front, int *e_ret);
 {
 	int ret, j;
 	int (*builtin)(char **commands, char **front);
@@ -136,7 +136,7 @@ int execute_commands(char **commands, char **front, int *exe_ret)
  *         If the input cannot be tokenized - -1.
  *         Otherwise - The exit value of the last executed command.
  */
-int process_commands(int *exe_ret)
+int hand_args(int *e_ret);
 {
 	int ret = 0, index;
 	char **commands, *line = NULL, **front;
@@ -182,7 +182,7 @@ int process_commands(int *exe_ret)
  * Return: If a ';', '&&', or '||' is placed at an invalid position - 2 as error status.
  *         Otherwise - 0 as error status.
  */
-int check_commands(char **commands)
+int check_args(char **args);
 {
 	size_t j;
 	char *cur, *nex;
