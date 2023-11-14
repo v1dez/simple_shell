@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * deallocate_args - Frees up memory taken by args.
+ * fr_args - Frees up memory taken by args.
  * @args: A null-terminated double pointer containing commands/arguments.
  * @front: A double pointer to the beginning of args.
  */
@@ -16,7 +16,7 @@ void fr_args(char **args, char **front)
 }
 
 /**
- * retrieve_process_id - Gets the current process ID.
+ * get_pid - Gets the current process ID.
  * Description: Opens the stat file, a space-delimited file containing
  *              information about the current process. The PID is the
  *              first word in the file. The function reads the PID into
@@ -52,7 +52,7 @@ char *get_pid(void)
 }
 
 /**
- * get_environment_value - Gets the value corresponding to an environmental variable.
+ * get_env_val - Gets the value corresponding to an environmental variable.
  * @beginning: The environmental variable to search for.
  * @length: The length of the environmental variable to search for.
  *
@@ -89,7 +89,7 @@ char *get_env_val(char *beginning, int len);
 }
 
 /**
- * replace_variables - Handles variable replacement.
+ * variable_repl - Handles variable replacement.
  * @line: A double pointer containing the command and arguments.
  * @exit_status: A pointer to the return value of the last executed command.
  *
