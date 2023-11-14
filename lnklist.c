@@ -9,7 +9,7 @@
  * Return: If an error occurs - NULL as return value.
  *         Otherwise - a pointer to the new node in the list.
  */
-alias_t *pl_alias_end(alias_t **ahe, char *nme, char *val)
+alias_t *pl_alias_end(alias_t **ahe, char *nme, char *val);
 {
 	alias_t *new_node = malloc(sizeof(alias_t));
 	alias_t *last;
@@ -44,7 +44,7 @@ alias_t *pl_alias_end(alias_t **ahe, char *nme, char *val)
  * free_alias_list - Frees an alias_t linked list.
  * @ahe: The head of the alias_t list.
  */
-void free_alias_list(alias_t *ahe)
+void free_alias_list(alias_t *ahe);
 {
 	alias_t *next;
 
@@ -66,7 +66,7 @@ void free_alias_list(alias_t *ahe)
  * Return: If an error occurs - NULL.
  *         Otherwise - a pointer to the new node.
  */
-list_t *pl_node_end(list_t **ahe, char *dir)
+list_t *pl_node_end(list_t **ahe, char *dir);
 {
 	list_t *new_node = malloc(sizeof(list_t));
 	list_t *last;
@@ -94,7 +94,7 @@ list_t *pl_node_end(list_t **ahe, char *dir)
  * free_list - Frees a list_t linked list.
  * @ahe: The head of the list_t list.
  */
-void free_list(list_t *ahe)
+void free_list(list_t *ahe);
 {
 	list_t *next;
 
