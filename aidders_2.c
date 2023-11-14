@@ -1,14 +1,14 @@
 #include "shell.h"
 
 /**
- * format_input - Partitions a line read from standard input as needed or described.
+ * hand_line - Partitions a line read from standard input as needed or described.
  * @input: A pointer to a line read from standard input.
  * @read_len: The length of the input line.
  *
  * Description: Spaces are inserted to separate ";", "||", and "&&".
  *              Replaces "#" with '\0'.
  */
-void format_input(char **input, ssize_t read_len)
+void hand_line(char **lne, ssize_t read);
 {
 	char *old_input, *new_input;
 	char previous, current, next;
@@ -92,7 +92,7 @@ void format_input(char **input, ssize_t read_len)
 }
 
 /**
- * get_formatted_length - Gets the new length of an input partitioned
+ * isnew_len - Gets the new length of an input partitioned
  *                        by ";", "||", "&&&", or "#".
  * @input: The input to check.
  *
@@ -100,7 +100,7 @@ void format_input(char **input, ssize_t read_len)
  *
  * Description: Cuts short lines containing '#' comments with '\0'.
  */
-ssize_t get_formatted_length(char *input)
+ssize_t isnew_len(char *lne);
 {
 	size_t i;
 	ssize_t new_len = 0;
@@ -155,9 +155,9 @@ ssize_t get_formatted_length(char *input)
 /**
  * check_logical_ops - Checks an input for logical operators "||" or "&&".
  * @input: A pointer to the character to check in the input.
- * @new_len: Pointer to new_len in get_formatted_length function.
+ * @new_len: Pointer to new_len in get_formatted_length functions
  */
-void check_logical_ops(char *input, ssize_t *new_len)
+void logl_ops(char *line, ssize_t *new_len);
 {
 	char previous, current, next;
 
