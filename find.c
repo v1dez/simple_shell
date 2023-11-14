@@ -1,8 +1,5 @@
 #include "shell.h"
 
-char *generate_full_path(char *command);
-list_t *parse_path_directories(char *path);
-
 /**
  * locate_command - Locates a command in the PATH.
  * @command: The command to locate.
@@ -10,7 +7,7 @@ list_t *parse_path_directories(char *path);
  * Return: If an error occurs or the command cannot be located - NULL (No return value).
  *         Otherwise - the full pathname of the command is returned.
  */
-char *locate_command(char *command)
+char *fill_pth_dir(char *pth);
 {
 	char **path_directories, *temp_path;
 	list_t *directories_list, *head;
@@ -56,7 +53,7 @@ char *locate_command(char *command)
  * Return: A copy of path with any leading/sandwiched/trailing colons replaced
  *         with the current working directory.
  */
-char *fill_path_with_cwd(char *path)
+list_t *get_pth_dir(char *pth);
 {
 	int j, length = 0;
 	char *path_copy, *current_working_dir;
@@ -110,7 +107,7 @@ char *fill_path_with_cwd(char *path)
  *
  * Return: A pointer to the initialized linked list.
  */
-list_t *parse_path_directories(char *path)
+char *get_loc(char *command);
 {
 	int index;
 	char **directories, *path_copy;
