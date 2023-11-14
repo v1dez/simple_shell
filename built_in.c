@@ -78,7 +78,7 @@ int shs_exit(char **args, char **front)
  *         If an error occurs - -1.
  *         Otherwise - 0.
  */
-int shs_cd(char **args, char __attribute__((__unused__)) **front)
+int shs_cd(char **args, char __attribute__((__unused__)) **front);
 {
 	char **dir_info, *new_line = "\n";
 	char *oldpwd = NULL, *pwd = NULL;
@@ -158,7 +158,7 @@ int shs_cd(char **args, char __attribute__((__unused__)) **front)
  * Return: If an error occurs - -1.
  *         Otherwise - 0.
  */
-int shs_help(char **args, char __attribute__((__unused__)) **front)
+int shs_help(char **args, char __attribute__((__unused__)) **front);
 {
 	if (!args[0])
 		help_all();
