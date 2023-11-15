@@ -1,8 +1,8 @@
 #include "shell.h"
 
 /**
- * signal_handler - prints new prompt upon a signal
- * @sig: signal
+ * signal_handler - Prints a new prompt upon a signal
+ * @sig: The signal
  */
 void signal_handler(int sig)
 {
@@ -14,18 +14,16 @@ void signal_handler(int sig)
 }
 
 /**
- * execute - Executes a command in a child process
- * @args: array of arguments
- * @front: A double pointer to the beginning of args
- * Return: If an error occurs - a corresponding error code
- *         O/w - The exit value of the last executed command
+ * execute - Executes a command in a child process.
+ * @args: An array of arguments.
+ * @front: A double pointer to the beginning of args.
+ * Return: If an error occurs - a corresponding error code.
+ *         O/w - The exit value of the last executed command.
  */
 int execute(char **args, char **front)
-
+{
 	pid_t child_pid;
-	int status;
-	int flag = 0;
-	int rt = 0;
+	int status, flag = 0, ret = 0;
 	char *command = args[0];
 
 	if (command[0] != '/' && command[0] != '.')
@@ -37,9 +35,9 @@ int execute(char **args, char **front)
 	if (!command || (access(command, F_OK) == -1))
 	{
 		if (errno == EACCES)
-			rt = (create_err(args, 126));
+			ret = (create_err(args, 126));
 		else
-			rt = (create_error(args, 127));
+			ret = (create_err(args, 127));
 	}
 	else
 	{
@@ -53,35 +51,36 @@ int execute(char **args, char **front)
 		}
 		if (child_pid == 0)
 		{
-		execve(command, args, environ);
-		if (errno == EACCES)
-			rt = (create_err(args, 126));
-		free_env();
-		fre_args(args, front);
-		free_alias_list(aliases);
-		_exit(rt);
+			execve(command, args, environ);
+			if (errno == EACCES)
+				ret = (create_err(args, 126));
+			free_env();
+			fr_args(args, front);
+			free_alias_list(aliases);
+			_exit(ret);
 		}
 		else
 		{
-		wait(&status);
-		rt = WEXITSTATUS(status);
+			wait(&status);
+			ret = WEXITSTATUS(status);
 		}
 	}
 	if (flag)
 		free(command);
-	return (rt);
-
+	return (ret);
+}
 
 /**
- * main - Runs a simple UNIX command interpreter
- * @argc: The number of arguments supplied to the program
- * @argv: An array of pointers to the arguments
- * Return: The return value of the last executed command
+ * main - Runs a simple UNIX command interpreter.
+ * @argc: The number of arguments supplied to the program.
+ * @argv: An array of pointers to the arguments.
+ *
+ * Return: The return value of the last executed command.
  */
 int main(int argc, char *argv[])
 {
 	int rt = 0, reutn;
-	gnt *exe_ret = &reutn;
+	int *exe_ret = &reutn;
 	char *prompt = "$ ", *new_line = "\n";
 
 	name = argv[0];
@@ -96,8 +95,8 @@ int main(int argc, char *argv[])
 
 	if (argc != 1)
 	{
-	rt = proc_file_comm(argv[1], exe_ret);/**comman*/
-	free_env();
+		rt = proc_file_comm(argv[1], exe_ret);
+		free_env();
 		free_alias_list(aliases);
 		return (*exe_ret);
 	}
@@ -114,7 +113,7 @@ int main(int argc, char *argv[])
 	while (1)
 	{
 		write(STDOUT_FILENO, prompt, 2);
-		rt = handle_args(exe_ret);
+		rt = hand_args(exe_ret);
 		if (rt == END_OF_FILE || rt == EXIT)
 		{
 			if (rt == END_OF_FILE)
@@ -124,9 +123,8 @@ int main(int argc, char *argv[])
 			exit(*exe_ret);
 		}
 	}
+
+	free_env();
+	free_alias_list(aliases);
+	return (*exe_ret);
 }
-/*
- * File: main.c
- * Auth:David Wahome.
- * Justin Orangi.
- */

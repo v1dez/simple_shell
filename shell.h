@@ -66,7 +66,7 @@ extern alias_t *aliases;
 int shs_alias(char **args, char __attribute__((__unused__)) **front);
 void def_alias(char *var_name, char *val);
 void writ_alias(alias_t *alias);
-char **switch_alias(char **args, char **front);
+char **repl_alias(char **args);
 
 /**built_in.c***/
 int (*get_builtin(char *command))(char **args, char **front);
@@ -172,5 +172,8 @@ char *_strchr(char *s, char c);
 int _strspn(char *s, char *accept);
 int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
+
+int error_126(char **args);
+int error_127(char **args);
 
 #endif /* _SHELL_H_ */

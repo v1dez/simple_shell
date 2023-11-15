@@ -22,12 +22,12 @@ char *herr_126(char **args)
 		return (NULL);
 	}
 
-	_strcpy(herr, name);
-	_strcat(herr, ": ");
-	_strcat(herr, hist_str);
-	_strcat(herr, ": ");
-	_strcat(herr, args[0]);
-	_strcat(herr, ": Permission denied\n");
+	_strcpy(error, name);
+	_strcat(error, ": ");
+	_strcat(error, history_str);
+	_strcat(error, ": ");
+	_strcat(error, args[0]);
+	_strcat(error, ": Permission denied\n");
 
 	free(history_str);
 	return (error);

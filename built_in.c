@@ -54,7 +54,7 @@ int shs_exit(char **args, char **front)
 			if (t <= len_of_int && args[0][t] >= '0' && args[0][t] <= '9')
 				num = (num * 10) + (args[0][t] - '0');
 			else
-				return (create_error(--args, 2));
+				return (create_err(--args, 2));
 		}
 	}
 	else
@@ -62,7 +62,7 @@ int shs_exit(char **args, char **front)
 		return (-3);
 	}
 	if (num > max - 1)
-		return (create_error(--args, 2));
+		return (create_err(--args, 2));
 	args -= 1;
 	fr_args(args, front);
 	free_env();
@@ -78,7 +78,7 @@ int shs_exit(char **args, char **front)
  *         If an error occurs - -1.
  *         Otherwise - 0.
  */
-int shs_cd(char **args, char __attribute__((__unused__)) **front);
+int shs_cd(char **args, char __attribute__((__unused__)) **front)
 {
 	char **dir_info, *new_line = "\n";
 	char *oldpwd = NULL, *pwd = NULL;
@@ -101,7 +101,7 @@ int shs_cd(char **args, char __attribute__((__unused__)) **front);
 			else
 			{
 				free(oldpwd);
-				return (create_error(args, 2));
+				return (create_err(args, 2));
 			}
 		}
 		else
@@ -112,7 +112,7 @@ int shs_cd(char **args, char __attribute__((__unused__)) **front);
 			else
 			{
 				free(oldpwd);
-				return (create_error(args, 2));
+				return (create_err(args, 2));
 			}
 		}
 	}
@@ -137,7 +137,7 @@ int shs_cd(char **args, char __attribute__((__unused__)) **front);
 
 	dir_info[0] = "PWD";
 	dir_info[1] = pwd;
-	if (shsetenv(dir_info, dir_info) == -1)
+	if (shs_setenv(dir_info, dir_info) == -1)
 		return (-1);
 	if (args[0] && args[0][0] == '-' && args[0][1] != '-')
 	{
@@ -158,24 +158,24 @@ int shs_cd(char **args, char __attribute__((__unused__)) **front);
  * Return: If an error occurs - -1.
  *         Otherwise - 0.
  */
-int shs_help(char **args, char __attribute__((__unused__)) **front);
+int shs_help(char **args, char __attribute__((__unused__)) **front)
 {
 	if (!args[0])
-		help_all();
+		aid_all();
 	else if (_strcmp(args[0], "alias") == 0)
-		help_alias();
+		aid_alias();
 	else if (_strcmp(args[0], "cd") == 0)
-		help_cd();
+		aid_cd();
 	else if (_strcmp(args[0], "exit") == 0)
-		help_exit();
+		aid_exit();
 	else if (_strcmp(args[0], "env") == 0)
-		help_env();
+		aid_env();
 	else if (_strcmp(args[0], "setenv") == 0)
-		help_setenv();
+		aid_setenv();
 	else if (_strcmp(args[0], "unsetenv") == 0)
-		help_unsetenv();
+		aid_unsetenv();
 	else if (_strcmp(args[0], "help") == 0)
-		help_help();
+		aiding_lp();
 	else
 		write(STDERR_FILENO, name, _strlen(name));
 

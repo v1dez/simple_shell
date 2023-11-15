@@ -9,7 +9,7 @@
  * Return: The delimiter index marking the end of
  *         the initial token pointed to by str.
  */
-int tkn_len(char *str, char *del);
+int tkn_len(char *str, char *del)
 {
 	int index = 0, len = 0;
 
@@ -30,7 +30,7 @@ int tkn_len(char *str, char *del);
  *
  * Return: The number of words contained within str.
  */
-int count_tokens(char *str, char *del);
+int count_tokens(char *str, char *del)
 {
 	int index, tokens = 0, len = 0;
 
@@ -42,7 +42,7 @@ int count_tokens(char *str, char *del);
 		if (*(str + index) != *del)
 		{
 			tokens++;
-			index += token_len(str + index, del);
+			index += tkn_len(str + index, del);
 		}
 	}
 
@@ -56,7 +56,7 @@ int count_tokens(char *str, char *del);
  *
  * Return: A pointer to an array containing the tokenized words.
  */
-char **_strtok(char *line, char *del);
+char **_strtok(char *line, char *del)
 {
 	char **ptr;
 	int index = 0, tokens, t, letters, k;
@@ -74,7 +74,7 @@ char **_strtok(char *line, char *del);
 		while (line[index] == *del)
 			index++;
 
-		letters = token_len(line + index, del);
+		letters = tkn_len(line + index, del);
 
 		ptr[t] = malloc(sizeof(char) * (letters + 1));
 		if (!ptr[t])

@@ -1,120 +1,118 @@
 #include "shell.h"
 
 /**
- * hand_line - Partitions a line read from standard input as needed or described.
- * @input: A pointer to a line read from standard input.
- * @read_len: The length of the input line.
- *
+ * hand_line - Partitions a line read from standard inpu
+ * @lne: A pointer to a line read from standard input
+ * @read: The length of line.
  * Description: Spaces are inserted to separate ";", "||", and "&&".
  *              Replaces "#" with '\0'.
  */
-void hand_line(char **lne, ssize_t read);
+void hand_line(char **lne, ssize_t read)
 {
-	char *old_input, *new_input;
+	char *old_line, *new_line;
 	char previous, current, next;
 	size_t i, j;
 	ssize_t new_len;
 
-	new_len = get_formatted_length(*input);
-	if (new_len == read_len - 1)
+	new_len = isnew_len(*lne);
+	if (new_len == read - 1)
 		return;
-	new_input = malloc(new_len + 1);
-	if (!new_input)
+	new_line = malloc(new_len + 1);
+	if (!new_line)
 		return;
 	j = 0;
-	old_input = *input;
-	for (i = 0; old_input[i]; i++)
+	old_line = *lne;
+	for (i = 0; old_line[i]; i++)
 	{
-		current = old_input[i];
-		next = old_input[i + 1];
+		current = old_line[i];
+		next = old_line[i + 1];
 		if (i != 0)
 		{
-			previous = old_input[i - 1];
+			previous = old_line[i - 1];
 			if (current == ';')
 			{
 				if (next == ';' && previous != ' ' && previous != ';')
 				{
-					new_input[j++] = ' ';
-					new_input[j++] = ';';
+					new_line[j++] = ' ';
+					new_line[j++] = ';';
 					continue;
 				}
 				else if (previous == ';' && next != ' ')
 				{
-					new_input[j++] = ';';
-					new_input[j++] = ' ';
+					new_line[j++] = ';';
+					new_line[j++] = ' ';
 					continue;
 				}
 				if (previous != ' ')
-					new_input[j++] = ' ';
-				new_input[j++] = ';';
+					new_line[j++] = ' ';
+				new_line[j++] = ';';
 				if (next != ' ')
-					new_input[j++] = ' ';
+					new_line[j++] = ' ';
 				continue;
 			}
 			else if (current == '&')
 			{
 				if (next == '&' && previous != ' ')
-					new_input[j++] = ' ';
+					new_line[j++] = ' ';
 				else if (previous == '&' && next != ' ')
 				{
-					new_input[j++] = '&';
-					new_input[j++] = ' ';
+					new_line[j++] = '&';
+					new_line[j++] = ' ';
 					continue;
 				}
 			}
 			else if (current == '|')
 			{
 				if (next == '|' && previous != ' ')
-					new_input[j++] = ' ';
+					new_line[j++]  = ' ';
 				else if (previous == '|' && next != ' ')
 				{
-					new_input[j++] = '|';
-					new_input[j++] = ' ';
+					new_line[j++] = '|';
+					new_line[j++] = ' ';
 					continue;
 				}
 			}
 		}
 		else if (current == ';')
 		{
-			if (i != 0 && old_input[i - 1] != ' ')
-				new_input[j++] = ' ';
-			new_input[j++] = ';';
+			if (i != 0 && old_line[i - 1] != ' ')
+				new_line[j++] = ' ';
+			new_line[j++] = ';';
 			if (next != ' ' && next != ';')
-				new_input[j++] = ' ';
+				new_line[j++] = ' ';
 			continue;
 		}
-		new_input[j++] = old_input[i];
+		new_line[j++] = old_line[i];
 	}
-	new_input[j] = '\0';
+	new_line[j] = '\0';
 
-	free(*input);
-	*input = new_input;
+	free(*lne);
+	*lne = new_line;
 }
 
 /**
- * isnew_len - Gets the new length of an input partitioned
- *                        by ";", "||", "&&&", or "#".
- * @input: The input to check.
- *
- * Return: The new length of the input.
- *
+ * isnew_len - Gets the new length of a line partitioned
+ *               by ";", "||", "&&&", or "#".
+ * @lne: The line to check.
+ * Return: The new length of the line.
  * Description: Cuts short lines containing '#' comments with '\0'.
  */
-ssize_t isnew_len(char *lne);
+
+ssize_t isnew_len(char *lne)
 {
 	size_t i;
 	ssize_t new_len = 0;
 	char current, next;
 
-	for (i = 0; input[i]; i++)
+	for (i = 0; lne[i]; i++)
 	{
-		current = input[i];
-		next = input[i + 1];
+		current = lne[i];
+		next = lne[i + 1];
 		if (current == '#')
 		{
-			if (i == 0 || input[i - 1] == ' ')
+			if (i == 0 || lne[i - 1] == ' ')
 			{
-				input[i] = '\0';
+				lne[i] = '\0';
 				break;
 			}
 		}
@@ -122,27 +120,27 @@ ssize_t isnew_len(char *lne);
 		{
 			if (current == ';')
 			{
-				if (next == ';' && input[i - 1] != ' ' && input[i - 1] != ';')
+				if (next == ';' && lne[i - 1] != ' ' && lne[i - 1] != ';')
 				{
 					new_len += 2;
 					continue;
 				}
-				else if (input[i - 1] == ';' && next != ' ')
+				else if (lne[i - 1] == ';' && next != ' ')
 				{
 					new_len += 2;
 					continue;
 				}
-				if (input[i - 1] != ' ')
+				if (lne[i - 1] != ' ')
 					new_len++;
 				if (next != ' ')
 					new_len++;
 			}
 			else
-				check_logical_ops(&input[i], &new_len);
+				logl_ops(&lne[i], &new_len);
 		}
 		else if (current == ';')
 		{
-			if (i != 0 && input[i - 1] != ' ')
+			if (i != 0 && lne[i - 1] != ' ')
 				new_len++;
 			if (next != ' ' && next != ';')
 				new_len++;
@@ -151,19 +149,18 @@ ssize_t isnew_len(char *lne);
 	}
 	return (new_len);
 }
-
 /**
- * check_logl_ops - Checks an input for logical operators "||" or "&&".
- * @input: A pointer to the character to check in the input.
- * @new_len: Pointer to new_len in get_formatted_length functions
+ * logl_ops - Checks a line for logical operators "||" or "&&".
+ * @line: A pointer to the character to check in the line.
+ * @new_len: Pointer to new_len in get_new_len function.
  */
-void logl_ops(char *line, ssize_t *new_len);
+void logl_ops(char *line, ssize_t *new_len)
 {
 	char previous, current, next;
 
-	previous = *(input - 1);
-	current = *input;
-	next = *(input + 1);
+	previous = *(line - 1);
+	current = *line;
+	next = *(line + 1);
 
 	if (current == '&')
 	{

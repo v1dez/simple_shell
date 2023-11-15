@@ -1,9 +1,5 @@
 #include "shell.h"
 
-int shs_alias(char **args, char __attribute__((__unused__)) **front);
-void def_alias(char *var_name, char *value);
-void writ_alias(alias_t *alias);
-char **switch_alias(char **args);
 
 /**
  * shs_alias - prints all aliases, specific
@@ -14,7 +10,7 @@ char **switch_alias(char **args);
  * Otherwise - 0
  */
 
-int shs_alias(char **args, char __attribute__((__unused__)) **front);
+int shs_alias(char **args, char __attribute__((__unused__)) **front)
 {
 	alias_t *temp = aliases;
 	int l, rt = 0;
@@ -24,8 +20,8 @@ int shs_alias(char **args, char __attribute__((__unused__)) **front);
 	{
 		while (temp)
 		{
-			print_alias(temp);
-			temp = temp->next;
+			writ_alias(temp);
+			temp = temp->nts;
 		}
 		return (rt);
 	}
@@ -39,16 +35,16 @@ int shs_alias(char **args, char __attribute__((__unused__)) **front);
 			{
 				if (_strcmp(args[l], temp->name) == 0)
 				{
-					print_alias(temp);
+					writ_alias(temp);
 					break;
 				}
-				temp = temp->next;
+				temp = temp->nts;
 			}
 			if (!temp)
-				rt = create_error(args + l, 1);/**creaate*/
+				rt = create_err(args + l, 1);/**creaate*/
 		}
 		else
-			set_alias(args[l], val);
+			def_alias(args[l], val);
 	}
 	return (rt);
 }
@@ -83,7 +79,7 @@ void def_alias(char *var_name, char *val)
 	{
 		if (_strcmp(var_name, temp->name) == 0)
 		{
-			free(temp->va);
+			free(temp->val);
 			temp->val = new_val;
 			break;
 		}
@@ -114,12 +110,13 @@ void writ_alias(alias_t *alias)
 	free(alias_str);
 }
 /**
- * switch_alias - Goes through the arguments and replace any matching alias
+ * repl_alias - Goes through the arguments and replace any matching alias
  * with their value
  * @args: 2D pointer to the arguments
+ * @front: adqw SDWEM
  * Return: 2D pointer to the arguments
  */
-char **switch_alias(char **args, char **front);
+char **repl_alias(char **args)
 {
 	alias_t *temp;
 	int l;

@@ -76,7 +76,7 @@ int shs_setenv(char **args, char __attribute__((__unused__)) **front)
 	}
 
 	for (ind = 0; environ[ind]; ind++)
-		new_environ[index] = environ[ind];
+		new_environ[ind] = environ[ind];
 
 	free(environ);
 	environ = new_environ;

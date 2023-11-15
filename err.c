@@ -36,7 +36,7 @@ int nombre_len(int num)
 char *_itoa(int num)
 {
 	char *buffer;
-	int len = num_len(num);
+	int len = nombre_len(num);
 	unsigned int nm1;
 
 	buffer = malloc(sizeof(char) * (len + 1));
@@ -75,7 +75,7 @@ char *_itoa(int num)
  */
 int create_err(char **args, int err)
 {
-	char *error;
+	char *error = NULL;
 
 	switch (err)
 	{
@@ -94,16 +94,16 @@ int create_err(char **args, int err)
 			error = herr_2_cd(args);
 		break;
 	case 126:
-		error = error_126(args);
+		err = error_126(args);
 		break;
 	case 127:
-		error = error_127(args);
+		err = error_127(args);
 		break;
 	}
-	write(STDERR_FILENO, error, _strlen(error));
-
 	if (error)
+	{
+		write(STDERR_FILENO, error, _strlen(error));
 		free(error);
+	}
 	return (err);
-
 }

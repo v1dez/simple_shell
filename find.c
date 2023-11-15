@@ -1,43 +1,42 @@
 #include "shell.h"
 
 /**
- * locate_command - Locates a command in the PATH.
- * @command: The command to locate.
- *
- * Return: If an error occurs or the command cannot be located - NULL (No return value).
- *         Otherwise - the full pathname of the command is returned.
+ * get_loc - Locates a command in the PATH
+ * @command: The command to locate
+ * Return: If an error occurs or the command cannot be loc
+ *         Otherwise - the full pathname of the comma
  */
-char *fill_pth_dir(char *pth);
+char *get_loc(char *command)
 {
-	char **path_directories, *temp_path;
-	list_t *directories_list, *head;
+	char **path, *temp;
+	list_t *dirs, *head;
 	struct stat st;
 
-	path_directories = _getenv("PATH");
-	if (!path_directories || !(*path_directories))
+	path = _getenv("PATH");
+	if (!path || !(*path))
 		return (NULL);
 
-	directories_list = parse_path_directories(*path_directories + 5);
-	head = directories_list;
+	dirs = get_pth_dir(*path + 5);
+	head = dirs;
 
-	while (directories_list)
+	while (dirs)
 	{
-		temp_path = malloc(_strlen(directories_list->dir) + _strlen(command) + 2);
-		if (!temp_path)
+		temp = malloc(_strlen(dirs->drty) + _strlen(command) + 2);
+		if (!temp)
 			return (NULL);
 
-		_strcpy(temp_path, directories_list->dir);
-		_strcat(temp_path, "/");
-		_strcat(temp_path, command);
+		_strcpy(temp, dirs->drty);
+		_strcat(temp, "/");
+		_strcat(temp, command);
 
-		if (stat(temp_path, &st) == 0)
+		if (stat(temp, &st) == 0)
 		{
 			free_list(head);
-			return (temp_path);
+			return (temp);
 		}
 
-		directories_list = directories_list->next;
-		free(temp_path);
+		dirs = dirs->nts;
+		free(temp);
 	}
 
 	free_list(head);
@@ -46,25 +45,24 @@ char *fill_pth_dir(char *pth);
 }
 
 /**
- * fill_path_with_cwd - Copies path but also replaces leading/sandwiched/trailing
- *                      colons (:) with the current working directory.
+ * fill_pth_dir - Copies path but also replaces leadi
+ *		   colons (:) with current working directory.
  * @path: The colon-separated list of directories.
- *
- * Return: A copy of path with any leading/sandwiched/trailing colons replaced
- *         with the current working directory.
+ * Return: A copy of path with any leading/sandwiched/traili
+ *	   with the current working directo
  */
-list_t *get_pth_dir(char *pth);
+char *fill_pth_dir(char *path)
 {
-	int j, length = 0;
-	char *path_copy, *current_working_dir;
+	int i, length = 0;
+	char *path_copy, *pwd;
 
-	current_working_dir = *(_getenv("PWD")) + 4;
-	for (j = 0; path[j]; j++)
+	pwd = *(_getenv("PWD")) + 4;
+	for (i = 0; path[i]; i++)
 	{
-		if (path[j] == ':')
+		if (path[i] == ':')
 		{
-			if (path[j + 1] == ':' || j == 0 || path[j + 1] == '\0')
-				length += _strlen(current_working_dir) + 1;
+			if (path[i + 1] == ':' || i == 0 || path[i + 1] == '\0')
+				length += _strlen(pwd) + 1;
 			else
 				length++;
 		}
@@ -75,63 +73,62 @@ list_t *get_pth_dir(char *pth);
 	if (!path_copy)
 		return (NULL);
 	path_copy[0] = '\0';
-	for (j = 0; path[j]; j++)
+	for (i = 0; path[i]; i++)
 	{
-		if (path[j] == ':')
+		if (path[i] == ':')
 		{
-			if (j == 0)
+			if (i == 0)
 			{
-				_strcat(path_copy, current_working_dir);
+				_strcat(path_copy, pwd);
 				_strcat(path_copy, ":");
 			}
-			else if (path[j + 1] == ':' || path[j + 1] == '\0')
+			else if (path[i + 1] == ':' || path[i + 1] == '\0')
 			{
 				_strcat(path_copy, ":");
-				_strcat(path_copy, current_working_dir);
+				_strcat(path_copy, pwd);
 			}
 			else
 				_strcat(path_copy, ":");
 		}
 		else
 		{
-			_strncat(path_copy, &path[j], 1);
+			_strncat(path_copy, &path[i], 1);
 		}
 	}
 	return (path_copy);
 }
 
 /**
- * parse_path_directories - Tokenizes a colon-separated list of
- *                         directories into a list_t linked list.
- * @path: The colon-separated list of directories.
- *
- * Return: A pointer to the initialized linked list.
+ * get_pth_dir - Tokenizes a colon-separated list of
+ *                directories into a list_s linked list
+ * @path: The colon-separated list of directories
+ * Return: A pointer to the initialized linked list
  */
-char *get_loc(char *command);
+list_t *get_pth_dir(char *path)
 {
-	int index;
-	char **directories, *path_copy;
+	int ind;
+	char **dirs, *path_copy;
 	list_t *head = NULL;
 
-	path_copy = fill_path_with_cwd(path);
+	path_copy = fill_pth_dir(path);
 	if (!path_copy)
 		return (NULL);
-	directories = _strtok(path_copy, ":");
+	dirs = _strtok(path_copy, ":");
 	free(path_copy);
-	if (!directories)
+	if (!dirs)
 		return (NULL);
 
-	for (index = 0; directories[index]; index++)
+	for (ind = 0; dirs[ind]; ind++)
 	{
-		if (add_node_end(&head, directories[index]) == NULL)
+		if (pl_node_end(&head, dirs[ind]) == NULL)
 		{
 			free_list(head);
-			free(directories);
+			free(dirs);
 			return (NULL);
 		}
 	}
 
-	free(directories);
+	free(dirs);
 
 	return (head);
 }
